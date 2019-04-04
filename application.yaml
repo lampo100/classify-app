@@ -1,0 +1,27 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: classify-app-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: classify-app-api
+    spec:
+      containers:
+        - name: classify-app-api
+          image: lampo.azurecr.io/classify-service:v1
+          ports:
+            - containerPort: 7071
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: classify-app-api
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 7071
+  selector:
+    app: classify-app-api
